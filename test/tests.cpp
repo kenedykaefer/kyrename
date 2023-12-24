@@ -91,3 +91,67 @@ TEST_CASE("remove_accents", "[remove_accents]")
     }
 
 } // remove_accents
+
+TEST_CASE("to_lower", "[to_lower]")
+{
+    struct TestCase
+    {
+        std::wstring str;
+        std::wstring expected;
+    };
+
+    SECTION("empty string")
+    {
+        TestCase test_case{L"", L""};
+        std::wstring actual = to_lower(test_case.str);
+        REQUIRE(actual == test_case.expected);
+    }
+
+    SECTION("string without uppercase characters")
+    {
+        TestCase test_cases[] = {
+            {L"hello, world!", L"hello, world!"},
+            {L"abcdefghijklmnopqrstuvwxyz", L"abcdefghijklmnopqrstuvwxyz"},
+            {L"0123456789", L"0123456789"},
+            {L"!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~", L"!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"},
+            {L" \t\n\r\f\v", L" \t\n\r\f\v"},
+        };
+
+        for (auto const &test_case : test_cases)
+        {
+            std::wstring actual = to_lower(test_case.str);
+            REQUIRE(actual == test_case.expected);
+        }
+    }
+
+    SECTION("string with uppercase characters")
+    {
+        TestCase test_cases[] = {
+            {L"Hello, world!", L"hello, world!"},
+            {L"ABCDEFGHIJKLMNOPQRSTUVWXYZ", L"abcdefghijklmnopqrstuvwxyz"},
+        };
+
+        for (auto const &test_case : test_cases)
+        {
+            std::wstring actual = to_lower(test_case.str);
+            REQUIRE(actual == test_case.expected);
+        }
+    }
+
+    SECTION("string with mixed uppercase, lowercase characters and non-alphabetic characters")
+    {
+        TestCase test_cases[] = {
+            {L"Hello, world!", L"hello, world!"},
+            {L"AbCdEfGhIjKlMnOpQrStUvWxYz", L"abcdefghijklmnopqrstuvwxyz"},
+            {L"0A1b2C3d4E5f6G7h8I9j", L"0a1b2c3d4e5f6g7h8i9j"},
+            {L"!\"#aEa$%bIb&'cOc(dUd)Ee*+fRf,gHg-hIh.iJi/jKj:kLk;lMl<mNn=nOn>oPo?qRr@sTs[Tt\\Uu]u^Vv`Ww{Xx|Yy}Zz~", L"!\"#aea$%bib&'coc(dud)ee*+frf,ghg-hih.iji/jkj:klk;lml<mnn=non>opo?qrr@sts[tt\\uu]u^vv`ww{xx|yy}zz~"},
+        };
+
+        for (auto const &test_case : test_cases)
+        {
+            std::wstring actual = to_lower(test_case.str);
+            REQUIRE(actual == test_case.expected);
+        }
+    }
+
+} // to_lower

@@ -1,5 +1,7 @@
+#include <kyrename.hpp>
 #include <unordered_map>
 #include <string>
+#include <cwctype>
 
 /**
  * @brief Removes accents from a given wide string.
@@ -52,3 +54,22 @@ std::wstring remove_accents(std::wstring const& str)
 
     return new_str;
 }   // remove_accents
+
+/**
+ * @brief Converts a given string to lowercase.
+ *
+ * @param str The string to be converted.
+ * @return The lowercase version of the input string.
+ */
+std::wstring to_lower(std::wstring const& str)
+{
+    std::wstring new_str;
+    new_str.reserve(str.size());
+
+    for (auto const& c : str)
+    {
+        new_str.push_back(std::towlower(c));
+    }
+
+    return new_str;
+}   // to_lower
