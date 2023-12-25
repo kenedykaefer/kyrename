@@ -155,3 +155,52 @@ TEST_CASE("to_lower", "[to_lower]")
     }
 
 } // to_lower
+
+TEST_CASE ("to_alphanum", "[to_alphanum]")
+{
+    struct TestCase
+    {
+        std::wstring str;
+        std::wstring expected;
+    };
+
+    SECTION("empty string")
+    {
+        TestCase test_case{L"", L""};
+        std::wstring actual = to_alphanum(test_case.str, L'_');
+        REQUIRE(actual == test_case.expected);
+    }
+
+    SECTION("string with only alphanumeric characters")
+    {
+        TestCase test_cases[] = {
+            {L"abcdefghijklmnopqrstuvwxyz", L"abcdefghijklmnopqrstuvwxyz"},
+            {L"ABCDEFGHIJKLMNOPQRSTUVWXYZ", L"ABCDEFGHIJKLMNOPQRSTUVWXYZ"},
+            {L"0123456789", L"0123456789"},
+            {L"_", L"_"},
+        };
+
+        for (auto const &test_case : test_cases)
+        {
+            std::wstring actual = to_alphanum(test_case.str, L'_');
+            REQUIRE(actual == test_case.expected);
+        }
+    }
+
+    SECTION("string with non-alphanumeric characters")
+    {
+        TestCase test_cases[] = {
+            {L"!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~", L"_"},
+            {L" \t\n\r\f\v", L""},
+            {L"!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ \t\n\r\f\v", L"_"},
+            {L"!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ \t\n\r\f\v abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", L"_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"},
+        };
+
+        for (auto const &test_case : test_cases)
+        {
+            std::wstring actual = to_alphanum(test_case.str, L'_');
+            REQUIRE(actual == test_case.expected);
+        }
+    }
+} // to_alphanum
+            

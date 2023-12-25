@@ -73,3 +73,26 @@ std::wstring to_lower(std::wstring const& str)
 
     return new_str;
 }   // to_lower
+
+/**
+ * @brief Converts a wide string to an alphanumeric string by removing non-alphanumeric characters.
+ * 
+ * @param str The wide string to convert.
+ * @param separator The character to use as a separator between alphanumeric characters.
+ * @return The converted alphanumeric string.
+ */
+std::wstring to_alphanum(std::wstring const& str, wchar_t const separator)
+{
+    std::wstring new_str;
+    new_str.reserve(str.size());
+
+    for (auto const& c : str)
+    {
+        if (std::iswalnum(c) || c == separator)
+        {
+            new_str.push_back(c);
+        }
+    }
+
+    return new_str;
+}   // to_alphanum
