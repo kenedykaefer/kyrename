@@ -203,4 +203,60 @@ TEST_CASE ("to_alphanum", "[to_alphanum]")
         }
     }
 } // to_alphanum
+
+TEST_CASE("normalize_separator", "[normalize_separator]")
+{
+    struct TestCase
+    {
+        std::wstring str;
+        wchar_t separator;
+        std::wstring separators_to_replace;
+        std::wstring expected;
+    };
+
+    SECTION("empty string")
+    {
+        TestCase test_case{L"", L'_', L"", L""};
+        std::wstring actual = normalize_separator(test_case.str, test_case.separator);
+        REQUIRE(actual == test_case.expected);
+    }
+
+    SECTION("string without separators")
+    {
+        TestCase test_cases[] = {
+            {L"abcdefghijklmnopqrstuvwxyz", L'_', L"", L"abcdefghijklmnopqrstuvwxyz"},
+            {L"ABCDEFGHIJKLMNOPQRSTUVWXYZ", L'_', L"", L"ABCDEFGHIJKLMNOPQRSTUVWXYZ"},
+            {L"0123456789", L'_', L"", L"0123456789"},
+            {L"!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~", L'_', L"", L"!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"},
+            {L" \t\n\r\f\v", L'_', L"", L" \t\n\r\f\v"},
+        };
+
+        for (auto const &test_case : test_cases)
+        {
+            std::wstring actual = normalize_separator(test_case.str, test_case.separator, test_case.separators_to_replace);
+            REQUIRE(actual == test_case.expected);
+        }
+    }
+
+    SECTION("string with separators")
+    {
+        TestCase test_cases[] = {
+            {L"abcdefghijklmnopqrstuvwxyz", L'_', L" ,.?;:[]{}|()-_", L"abcdefghijklmnopqrstuvwxyz"},
+            {L"ABCDEFGHIJKLMNOPQRSTUVWXYZ", L'_', L" ,.?;:[]{}|()-_", L"ABCDEFGHIJKLMNOPQRSTUVWXYZ"},
+            {L"0123456789", L'_', L" ,.?;:[]{}|()-_", L"0123456789"},
+            {L"!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~", L'_', L" ,.?;:[]{}|()-_", L"!\"#$%&'_*+_/_<=>_@_\\_^_`_~"},
+            {L" \t\n\r\f\v", L'_', L" ,.?;:[]{}|()-_", L"\t\n\r\f\v"},
+            {L" abcd efgh ijkl mnop qrst uvwx yz ", L'_', L" ,.?;:[]{}|()-_", L"abcd_efgh_ijkl_mnop_qrst_uvwx_yz"},
+            {L"  0123 4567 89  ", L'_', L" ,.?;:[]{}|()-_", L"0123_4567_89"},
+        };
+
+        for (auto const &test_case : test_cases)
+        {
+            std::wstring actual = normalize_separator(test_case.str, test_case.separator, test_case.separators_to_replace);
+            REQUIRE(actual == test_case.expected);
+        }
+    }
+} // normalize_separator
+
+    
             

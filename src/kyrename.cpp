@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <string>
 #include <cwctype>
+#include <unordered_set>
 
 /**
  * @brief Removes accents from a given wide string.
@@ -96,3 +97,48 @@ std::wstring to_alphanum(std::wstring const& str, wchar_t const separator)
 
     return new_str;
 }   // to_alphanum
+
+/**
+ * @brief Normalizes the separator in a given string.
+ * 
+ * This function replaces occurrences of specified separators in the input string with a specified separator.
+ * 
+ * @param str The input string to be normalized.
+ * @param separator The separator to be used for normalization.
+ * @param separators_to_replace Optional. The list of separators to be replaced. Default value is ",.?;:[]{}|()-_".
+ * @return The normalized string.
+ */
+std::wstring normalize_separator(std::wstring const& str, wchar_t const separator, std::wstring const& separators_to_replace)
+{
+    std::wstring new_str;
+    new_str.reserve(str.size());
+
+    std::unordered_set<wchar_t> separators = {separators_to_replace.begin(), separators_to_replace.end()};
+
+    bool last_char_was_separator = true;
+
+    for (auto const& c : str)
+    {
+        if (separators.find(c) != separators.end())
+        {
+            if (!last_char_was_separator)
+            {
+                new_str.push_back(separator);
+                last_char_was_separator = true;
+            }
+        }
+        else
+        {
+            new_str.push_back(c);
+            last_char_was_separator = false;
+        }
+    }
+
+    // Remove trailing separator
+    if (!new_str.empty() && new_str.back() == separator)
+    {
+        new_str.pop_back();
+    }
+
+    return new_str;
+}   // normalize_separator
