@@ -1,10 +1,21 @@
 #include <iostream>
 #include <kyrename.hpp>
+#include <stdexcept>
 
 int main(int argc, char** argv)
 {
-    std::wstring str = L"Hello, World!";
-    std::wcout << str << std::endl;
-    std::wcout << to_lower(str) << std::endl;
+    try
+    {
+        if (argc < 2)
+        {
+            throw std::invalid_argument("Usage: " + std::string(argv[0]) + " [options] <file> [<file> ...]");
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+        std::cerr << "Try '" << argv[0] << " --help' for more information." << std::endl;
+    }
+    
     return 0;
 }
