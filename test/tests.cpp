@@ -12,7 +12,7 @@ TEST_CASE("remove_accents", "[remove_accents]")
     SECTION("empty string")
     {
         TestCase test_case{L"", L""};
-        std::wstring actual = remove_accents(test_case.str);
+        std::wstring actual = ky::remove_accents(test_case.str);
         REQUIRE(actual == test_case.expected);
     }
 
@@ -29,7 +29,7 @@ TEST_CASE("remove_accents", "[remove_accents]")
 
         for (auto const &test_case : test_cases)
         {
-            std::wstring actual = remove_accents(test_case.str);
+            std::wstring actual = ky::remove_accents(test_case.str);
             REQUIRE(actual == test_case.expected);
         }
     }
@@ -57,7 +57,7 @@ TEST_CASE("remove_accents", "[remove_accents]")
 
         for (auto const &test_case : test_cases)
         {
-            std::wstring actual = remove_accents(test_case.str);
+            std::wstring actual = ky::remove_accents(test_case.str);
             REQUIRE(actual == test_case.expected);
         }
     }
@@ -85,7 +85,7 @@ TEST_CASE("remove_accents", "[remove_accents]")
 
         for (auto const &test_case : test_cases)
         {
-            std::wstring actual = remove_accents(test_case.str);
+            std::wstring actual = ky::remove_accents(test_case.str);
             REQUIRE(actual == test_case.expected);
         }
     }
@@ -103,7 +103,7 @@ TEST_CASE("to_lower", "[to_lower]")
     SECTION("empty string")
     {
         TestCase test_case{L"", L""};
-        std::wstring actual = to_lower(test_case.str);
+        std::wstring actual = ky::to_lower(test_case.str);
         REQUIRE(actual == test_case.expected);
     }
 
@@ -119,7 +119,7 @@ TEST_CASE("to_lower", "[to_lower]")
 
         for (auto const &test_case : test_cases)
         {
-            std::wstring actual = to_lower(test_case.str);
+            std::wstring actual = ky::to_lower(test_case.str);
             REQUIRE(actual == test_case.expected);
         }
     }
@@ -133,7 +133,7 @@ TEST_CASE("to_lower", "[to_lower]")
 
         for (auto const &test_case : test_cases)
         {
-            std::wstring actual = to_lower(test_case.str);
+            std::wstring actual = ky::to_lower(test_case.str);
             REQUIRE(actual == test_case.expected);
         }
     }
@@ -149,7 +149,7 @@ TEST_CASE("to_lower", "[to_lower]")
 
         for (auto const &test_case : test_cases)
         {
-            std::wstring actual = to_lower(test_case.str);
+            std::wstring actual = ky::to_lower(test_case.str);
             REQUIRE(actual == test_case.expected);
         }
     }
@@ -167,7 +167,7 @@ TEST_CASE ("to_alphanum", "[to_alphanum]")
     SECTION("empty string")
     {
         TestCase test_case{L"", L""};
-        std::wstring actual = to_alphanum(test_case.str, L'_');
+        std::wstring actual = ky::to_alphanum(test_case.str, L'_');
         REQUIRE(actual == test_case.expected);
     }
 
@@ -182,7 +182,7 @@ TEST_CASE ("to_alphanum", "[to_alphanum]")
 
         for (auto const &test_case : test_cases)
         {
-            std::wstring actual = to_alphanum(test_case.str, L'_');
+            std::wstring actual = ky::to_alphanum(test_case.str, L'_');
             REQUIRE(actual == test_case.expected);
         }
     }
@@ -198,7 +198,7 @@ TEST_CASE ("to_alphanum", "[to_alphanum]")
 
         for (auto const &test_case : test_cases)
         {
-            std::wstring actual = to_alphanum(test_case.str, L'_');
+            std::wstring actual = ky::to_alphanum(test_case.str, L'_');
             REQUIRE(actual == test_case.expected);
         }
     }
@@ -217,7 +217,7 @@ TEST_CASE("normalize_separator", "[normalize_separator]")
     SECTION("empty string")
     {
         TestCase test_case{L"", L'_', L"", L""};
-        std::wstring actual = normalize_separator(test_case.str, test_case.separator);
+        std::wstring actual = ky::normalize_separator(test_case.str, test_case.separator);
         REQUIRE(actual == test_case.expected);
     }
 
@@ -233,7 +233,7 @@ TEST_CASE("normalize_separator", "[normalize_separator]")
 
         for (auto const &test_case : test_cases)
         {
-            std::wstring actual = normalize_separator(test_case.str, test_case.separator, test_case.separators_to_replace);
+            std::wstring actual = ky::normalize_separator(test_case.str, test_case.separator, test_case.separators_to_replace);
             REQUIRE(actual == test_case.expected);
         }
     }
@@ -252,7 +252,7 @@ TEST_CASE("normalize_separator", "[normalize_separator]")
 
         for (auto const &test_case : test_cases)
         {
-            std::wstring actual = normalize_separator(test_case.str, test_case.separator, test_case.separators_to_replace);
+            std::wstring actual = ky::normalize_separator(test_case.str, test_case.separator, test_case.separators_to_replace);
             REQUIRE(actual == test_case.expected);
         }
     }

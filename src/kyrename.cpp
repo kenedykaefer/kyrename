@@ -14,7 +14,7 @@
  * @param str The wide string from which to remove accents.
  * @return The modified wide string without accents.
  */
-std::wstring remove_accents(std::wstring const& str)
+std::wstring ky::remove_accents(std::wstring const& str)
 {
 
     static std::unordered_map<wchar_t, wchar_t> accentuation = {
@@ -62,7 +62,7 @@ std::wstring remove_accents(std::wstring const& str)
  * @param str The string to be converted.
  * @return The lowercase version of the input string.
  */
-std::wstring to_lower(std::wstring const& str)
+std::wstring ky::to_lower(std::wstring const& str)
 {
     std::wstring new_str;
     new_str.reserve(str.size());
@@ -82,7 +82,7 @@ std::wstring to_lower(std::wstring const& str)
  * @param separator The character to use as a separator between alphanumeric characters.
  * @return The converted alphanumeric string.
  */
-std::wstring to_alphanum(std::wstring const& str, wchar_t const separator)
+std::wstring ky::to_alphanum(std::wstring const& str, wchar_t const separator)
 {
     std::wstring new_str;
     new_str.reserve(str.size());
@@ -108,7 +108,7 @@ std::wstring to_alphanum(std::wstring const& str, wchar_t const separator)
  * @param separators_to_replace Optional. The list of separators to be replaced. Default value is ",.?;:[]{}|()-_".
  * @return The normalized string.
  */
-std::wstring normalize_separator(std::wstring const& str, wchar_t const separator, std::wstring const& separators_to_replace)
+std::wstring ky::normalize_separator(std::wstring const& str, wchar_t const separator, std::wstring const& separators_to_replace)
 {
     std::wstring new_str;
     new_str.reserve(str.size());
