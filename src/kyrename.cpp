@@ -142,3 +142,26 @@ std::wstring ky::normalize_separator(std::wstring const& str, wchar_t const sepa
 
     return new_str;
 }   // normalize_separator
+
+ky::file_name ky::normalize_name(ky::file_name name, ky::normalize_name_options const& options)
+{
+    if (options.accents)
+    {
+        name.filename = ky::remove_accents(name.filename);
+    }
+
+    if (options.lower)
+    {
+        name.filename = ky::to_lower(name.filename);
+        name.extension = ky::to_lower(name.extension);
+    }
+
+    if (options.alphanum)
+    {
+        name.filename = ky::to_alphanum(name.filename, options.separator);
+    }
+
+    name.filename = ky::normalize_separator(name.filename, options.separator);
+
+    return name;
+}   // normalize_name
