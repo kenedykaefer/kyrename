@@ -31,45 +31,23 @@ int main(int argc, char **argv)
             throw std::invalid_argument("Usage: " + std::string(argv[0]) + " <path>");
         }
 
-        fs::path path = argv[1];
+        std::vector<fs::path> paths;
 
-        if (path == "." || path == "./")
+        for (int i = 1; i < argc; ++i)
         {
-            path = fs::current_path();
-
-            std::vector<ky::file_name> names;
-
-            for (auto const &entry : fs::directory_iterator(path))
-            {
-                ky::file_name name;
-                name.filename = entry.path().stem().wstring();
-                name.extension = entry.path().extension().wstring();
-                name.hidden_file = entry.path().filename().wstring().front() == L'.';
-
-                names.push_back(name);
-            }
-
-            ky::normalize_name_options options;
-            options.accents = true;
-            options.lower = true;
-            options.alphanum = true;
-            options.separator = L'_';
-
-            std::vector<ky::file_name> new_names;
-
-            for (auto const &name : names)
-            {
-                new_names.push_back(ky::normalize_name(name, options));
-            }
-
-            print_names_with_new_names(names, new_names);
-
-
+            paths.push_back(fs::path(argv[i]));
         }
-        else
+
+        std::vector<ky::file_name> names = ky::get_files(paths);
+        std::vector<ky::file_name> new_names;
+
+        for (auto const &name : names)
         {
-            throw std::invalid_argument("Only the current directory is supported at the moment.");
+            ky::file_name new_name = ky::normalize_name(name, {true, true, true, L'_'});
+            new_names.push_back(new_name);
         }
+
+        print_names_with_new_names(names, new_names);
     }
     catch (const std::exception &e)
     {
