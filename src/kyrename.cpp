@@ -3,6 +3,7 @@
 #include <string>
 #include <cwctype>
 #include <unordered_set>
+#include <stdexcept>
 
 /**
  * @brief Removes accents from a given wide string.
@@ -142,6 +143,65 @@ std::wstring ky::normalize_separator(std::wstring const& str, wchar_t const sepa
 
     return new_str;
 }   // normalize_separator
+
+std::vector<ky::file_name> ky::get_files(std::vector<fs::path> const& paths)
+{
+    std::vector<ky::file_name> files;
+
+    for (auto const& path : paths)
+    {
+        if (path.native().back() == fs::path::preferred_separator)
+        {
+            throw std::invalid_argument("Path cannot end with a separator: " + path.string());
+        }
+        
+        if (path.filename() == ".")
+        {
+            fs::path parent_path = path.parent_path();
+
+            if (parent_path.empty())
+            {
+                parent_path = fs::current_path();
+            }
+
+            if (!fs::exists(parent_path))
+            {
+                throw std::invalid_argument("Path does not exist: " + parent_path.string());
+            }
+
+            if (!fs::is_directory(parent_path))
+            {
+                throw std::invalid_argument("Path is not a directory: " + parent_path.string());
+            }
+
+            for (auto const& entry : fs::directory_iterator(parent_path))
+            {
+                ky::file_name file;
+                file.path = entry.path();
+                file.filename = entry.path().stem().wstring();
+                file.extension = entry.path().extension().wstring();
+                file.hidden_file = file.filename.front() == L'.';
+                files.push_back(file);
+            }
+        }
+        else
+        {
+            if (!fs::exists(path))
+            {
+                throw std::invalid_argument("Path does not exist: " + path.string());
+            }
+
+            ky::file_name file;
+            file.path = path;
+            file.filename = path.stem().wstring();
+            file.extension = path.extension().wstring();
+            file.hidden_file = file.filename.front() == L'.';
+            files.push_back(file);
+        }
+    }
+
+    return files;
+}
 
 ky::file_name ky::normalize_name(ky::file_name name, ky::normalize_name_options const& options)
 {
