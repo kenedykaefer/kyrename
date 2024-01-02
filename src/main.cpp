@@ -6,22 +6,6 @@
 
 namespace fs = std::filesystem;
 
-void print_names_with_new_names(std::vector<ky::file_name> const &names, std::vector<ky::file_name> const &new_names)
-{
-    std::cout << "Old name\tNew name" << std::endl;
-    std::cout << "--------\t--------" << std::endl;
-
-    for (size_t i = 0; i < names.size(); ++i)
-    {
-        std::wcout << names[i].filename << names[i].extension << "\t\t";
-        if (names[i].hidden_file)
-        {
-            std::wcout << L".";
-        }
-        std::wcout << new_names[i].filename << new_names[i].extension << std::endl;
-    }
-}
-
 int main(int argc, char **argv)
 {
     try
@@ -37,17 +21,6 @@ int main(int argc, char **argv)
         {
             paths.push_back(fs::path(argv[i]));
         }
-
-        std::vector<ky::file_name> names = ky::get_files(paths);
-        std::vector<ky::file_name> new_names;
-
-        for (auto const &name : names)
-        {
-            ky::file_name new_name = ky::normalize_name(name, {true, true, true, L'_'});
-            new_names.push_back(new_name);
-        }
-
-        print_names_with_new_names(names, new_names);
     }
     catch (const std::exception &e)
     {
