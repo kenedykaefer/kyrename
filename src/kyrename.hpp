@@ -17,7 +17,7 @@ namespace ky
     class kyrename
     {
     public:
-        kyrename(std::vector<fs::path> const &path);
+        kyrename(std::vector<fs::path> const &paths);
 
     private:
         class FileSystem

@@ -180,3 +180,30 @@ std::wstring ky::normalize_separator(std::wstring const &str, wchar_t const sepa
 
     return new_str;
 } // normalize_separator
+
+ky::kyrename::kyrename(std::vector<fs::path> const &paths)
+{
+    for (auto &const_path : paths)
+    {
+        if (!fs::exists(const_path))
+        {
+            throw std::invalid_argument("Path " + const_path.string() + " does not exist.");
+        }
+        
+        fs::path path = const_path;
+
+        if (path.native().back() == fs::path::preferred_separator)
+        {
+            path = path.parent_path();
+        }
+
+        if (path.filename() == ".")
+        {
+            m_file_systems.push_back(std::make_unique<FileSystemCollection>(path.parent_path()));
+        } 
+        else
+        {
+            m_file_systems.push_back(std::make_unique<FileSystemItem>(path));
+        }
+    }
+} // kyrename::kyrename
