@@ -222,3 +222,7 @@ ky::kyrename::FileSystemCollection::FileSystemCollection(fs::path const &directo
         m_items.push_back(FileSystemItem(entry.path()));
     }
 } // kyrename::FileSystemCollection::FileSystemCollection
+
+ky::kyrename::FileSystemItem::FileSystemItem(fs::path const &item_path) : m_item_path(item_path)
+{
+} // ky::kyrename::FileSystemItem::FileSystemItem
