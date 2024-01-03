@@ -207,3 +207,18 @@ ky::kyrename::kyrename(std::vector<fs::path> const &paths)
         }
     }
 } // kyrename::kyrename
+
+ky::kyrename::FileSystemCollection::FileSystemCollection(fs::path const &directory_path)
+{
+    if (!fs::is_directory(directory_path))
+    {
+        throw std::invalid_argument("Path " + directory_path.string() + " is not a directory.");
+    }
+
+    m_directory_path = directory_path;
+
+    for (auto const &entry : fs::directory_iterator(directory_path))
+    {
+        m_items.push_back(FileSystemItem(entry.path()));
+    }
+} // kyrename::FileSystemCollection::FileSystemCollection
