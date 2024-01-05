@@ -3,6 +3,7 @@
 #include <string>
 #include <cwctype>
 #include <unordered_set>
+#include <iostream>
 
 /**
  * @brief Removes accents from a given wide string.
@@ -189,7 +190,7 @@ ky::kyrename::kyrename(std::vector<fs::path> const &paths)
         {
             throw std::invalid_argument("Path " + const_path.string() + " does not exist.");
         }
-        
+
         fs::path path = const_path;
 
         if (path.native().back() == fs::path::preferred_separator)
@@ -197,10 +198,19 @@ ky::kyrename::kyrename(std::vector<fs::path> const &paths)
             path = path.parent_path();
         }
 
-        if (path.filename() == ".")
+        if (path == "..")
+        {
+            throw std::invalid_argument("Cannot rename parent directory.");
+        }
+
+        if (path == ".")
+        {
+            m_file_systems.push_back(std::make_unique<FileSystemCollection>(path));
+        }
+        else if (path.filename() == ".")
         {
             m_file_systems.push_back(std::make_unique<FileSystemCollection>(path.parent_path()));
-        } 
+        }
         else
         {
             m_file_systems.push_back(std::make_unique<FileSystemItem>(path));
