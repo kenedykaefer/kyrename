@@ -1,5 +1,5 @@
 #include <catch2/catch_all.hpp>
-#include <kyrename.hpp>
+#include <string_toolkit.hpp>
 
 TEST_CASE("remove_accents", "[remove_accents]")
 {
