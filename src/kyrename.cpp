@@ -35,3 +35,29 @@ void ky::kyrename::print_paths() const
         std::wcout << path.wstring() << std::endl;
     }
 }
+
+void ky::kyrename::disable_all_rename_options()
+{
+    m_rename_options = static_cast<unsigned int>(rename_options::none);
+}
+
+void ky::kyrename::enable_remove_accents()
+{
+    m_rename_options |= static_cast<unsigned int>(rename_options::remove_accents);
+}
+
+void ky::kyrename::enable_to_lower()
+{
+    m_rename_options |= static_cast<unsigned int>(rename_options::to_lower);
+}
+
+void ky::kyrename::enable_only_alphanum()
+{
+    m_rename_options |= static_cast<unsigned int>(rename_options::only_alphanum);
+}
+
+void ky::kyrename::enable_normalize_separator(wchar_t const separator)
+{
+    m_rename_options |= static_cast<unsigned int>(rename_options::normalize_separator);
+    m_separator = separator;
+}
