@@ -3,7 +3,7 @@
 
 #include <string_toolkit.hpp>
 #include <filesystem>
-#include <vector>
+#include <set>
 #include <stdexcept>
 
 namespace ky
@@ -14,11 +14,11 @@ namespace ky
     {
     public:
         kyrename();
-        void add_path(const fs::path& path);
+        void add_path(const fs::path &path);
         void print_paths() const;
 
     private:
-        std::vector<fs::path> m_paths;
+        std::set<fs::path> m_paths;
     };
 
 } // namespace ky

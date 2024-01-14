@@ -25,10 +25,7 @@ void ky::kyrename::add_path(const fs::path &path)
         throw std::invalid_argument("Cannot rename parent directory.");
     }
 
-    if (std::find(m_paths.begin(), m_paths.end(), path) == m_paths.end())
-    {
-        m_paths.push_back(path);
-    }
+    m_paths.insert(canonicalPath);
 }
 
 void ky::kyrename::print_paths() const
